@@ -1,14 +1,16 @@
 // ================= CẤU HÌNH THÔNG SỐ =================
 const CONFIG = {
-    // Link chuyển hướng link4m của bạn — thay bằng link thật của bạn
-    link4mBrmod: "https://link4m.com/your-link-here",
-    link4mFFV7A: "https://link4m.com/your-other-link-here",
+    // ========== ĐIỀN LINK CỦA BẠN VÀO ĐÂY ==========
+    // Thay bằng link rút gọn / media của BRMOD
+    linkBrmod: "ĐIỀN_LINK_BRMOD_CỦA_BẠN_VÀY_ĐÂY",
+    // Thay bằng link rút gọn / media của FF V7A
+    linkFFV7A: "ĐIỀN_LINK_FFV7A_CỦA_BẠN_VÀO_ĐÂY",
     
-    // Tài khoản mật khẩu quản trị — BẠN CÓ THỂ ĐỔI Ở ĐÂY
-    adminUsername: "admin",
-    adminPassword: "admin123",
+    // ========== TÀI KHOẢN MẬT KHẨU ADMIN ==========
+    adminUsername: "admin",       // ← Đổi tên đăng nhập
+    adminPassword: "admin123",    // ← Đổi mật khẩu
     
-    // Thời hạn key: 5 giờ = 5 * 60 * 60 * 1000 ms
+    // Thời hạn key: 5 giờ — không đổi nếu không cần
     keyValidMs: 5 * 60 * 60 * 1000
 };
 
@@ -49,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.addEventListener('click', () => handleUserClick('FFV7A'));
     });
 
-    // Kiểm tra xem vừa quay về từ link4m không
+    // Kiểm tra xem vừa quay về sau khi vượt link không
     const params = new URLSearchParams(window.location.search);
     if (params.get('success') === '1' && params.get('mod')) {
         showSuccessSection(params.get('mod'));
@@ -65,15 +67,18 @@ function handleUserClick(modType) {
     cards.classList.add('hidden');
     loading.classList.remove('hidden');
 
-    // Chuyển sang link4m sau 1 giây
+    // Chuyển sang link rút gọn sau 1 giây
     setTimeout(() => {
         const targetLink = modType === 'BRMOD' 
-            ? CONFIG.link4mBrmod 
-            : CONFIG.link4mFFV7A;
-        // Thêm tham số để link4m chuyển về khi xong
+            ? CONFIG.linkBrmod 
+            : CONFIG.linkFFV7A;
+        
+        // Link quay về sau khi vượt xong
         const redirectBack = encodeURIComponent(
             window.location.origin + window.location.pathname + `?success=1&mod=${modType}`
         );
+        
+        // ✅ Định dạng nối link — nếu link của bạn dùng ký tự khác thì sửa '?to=' ở dưới
         window.location.href = targetLink + '?to=' + redirectBack;
     }, 1000);
 }
