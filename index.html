@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNIVERSE BRMOD PANEL</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="nebula"></div>
+    
+    <div class="container">
+        <h1 class="main-title">UNIVERSE BRMOD PANEL</h1>
+        
+        <div class="cards-grid">
+            <div class="mod-card" data-mod="BRMOD">
+                <div class="card-border"></div>
+                <div class="card-content">
+                    <h2>BRMOD</h2>
+                    <p>Nhấn để nhận khóa</p>
+                </div>
+            </div>
+
+            <div class="mod-card" data-mod="FFV7A">
+                <div class="card-border"></div>
+                <div class="card-content">
+                    <h2>FF V7A</h2>
+                    <p>Nhấn để nhận khóa</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trang chờ chuyển hướng -->
+        <div id="loading-section" class="hidden">
+            <div class="loader"></div>
+            <p>Đang chuyển hướng...</p>
+        </div>
+
+        <!-- Trang nhận khóa thành công -->
+        <div id="success-section" class="hidden">
+            <div class="success-icon">✓</div>
+            <h2>Chúc mừng bạn đã nhận được khóa!</h2>
+            <div class="key-box">
+                <p id="key-display">---</p>
+                <span id="expire-note">Hạn sử dụng: 5 giờ</span>
+            </div>
+            <button class="back-btn" onclick="goBack()">Quay lại</button>
+        </div>
+
+        <!-- Đăng nhập quản trị -->
+        <div class="admin-login">
+            <p>Quản trị viên?</p>
+            <button class="admin-btn" onclick="showAdminLogin()">Đăng nhập Admin</button>
+        </div>
+
+        <div id="admin-login-form" class="hidden">
+            <input type="text" id="admin-user" placeholder="Tên đăng nhập">
+            <input type="password" id="admin-pass" placeholder="Mật khẩu">
+            <button onclick="adminLogin()">Đăng nhập</button>
+            <button class="cancel-btn" onclick="hideAdminLogin()">Hủy</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
