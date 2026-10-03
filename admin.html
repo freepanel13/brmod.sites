@@ -3,40 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin — UNIVERSE BRMOD PANEL</title>
+    <title>Quản trị — BRMOD UNIVERSE PANEL</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="stars"></div>
     <div class="nebula"></div>
-    
-    <div class="container">
-        <h1 class="main-title">ADMIN — UNIVERSE BRMOD PANEL</h1>
-        
-        <div class="admin-panel">
-            <h2>Bảng điều khiển quản trị</h2>
-            <p class="note">Bạn không cần vượt link, nhấn nút để lấy khóa ngay</p>
 
-            <div class="admin-gen">
-                <label>Chọn loại MOD:</label>
-                <select id="admin-mod-type">
-                    <option value="BRMOD">BRMOD</option>
-                    <option value="FFV7A">FF V7A</option>
-                </select>
-                
-                <button class="gen-btn" onclick="adminGenerateKey()">Tạo & Lấy Khóa Ngay</button>
-            </div>
+    <nav class="navbar">
+        <div class="nav-brand">BRMOD UNIVERSE PANEL</div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Trang chủ</a>
+            <a href="#" class="nav-link active">Quản trị</a>
+        </div>
+    </nav>
 
-            <div id="admin-key-result" class="hidden">
-                <div class="key-box">
-                    <p id="admin-key-display">---</p>
-                    <span>Hạn sử dụng: 5 giờ kể từ lúc tạo</span>
+    <main class="container">
+        <section class="page-section">
+            <div class="hero-box">
+                <div class="admin-header">
+                    <h1>⚙️ Bảng Điều Khiển Quản Trị</h1>
+                    <span class="admin-badge">Đã đăng nhập</span>
+                </div>
+                <p class="note-text">✅ Bạn không cần vượt link — nhấn nút để lấy khóa ngay</p>
+
+                <div class="admin-grid">
+                    <div class="admin-card">
+                        <h3>Tạo Khóa Mới</h3>
+                        <label>Chọn phiên bản:</label>
+                        <select id="admin-mod-type">
+                            <option value="BRMOD">BRMOD</option>
+                            <option value="FFV7A">FF V7A</option>
+                        </select>
+                        <button class="gen-btn" onclick="adminGenerateKey()">🔑 Tạo & Lấy Khóa Ngay</button>
+                    </div>
+
+                    <div class="admin-card">
+                        <h3>Thông Tin Khóa</h3>
+                        <div id="admin-key-result" class="hidden">
+                            <div class="key-box">
+                                <span class="key-label">Khóa vừa tạo:</span>
+                                <p id="admin-key-display">---</p>
+                                <span class="key-note">Hạn sử dụng: 5 giờ</span>
+                            </div>
+                        </div>
+                        <p id="no-key-yet" class="muted">Chưa có khóa nào được tạo</p>
+                    </div>
+                </div>
+
+                <div class="logout-area">
+                    <button class="logout-btn" onclick="logoutAdmin()">Đăng xuất</button>
                 </div>
             </div>
-
-            <button class="back-btn" onclick="logoutAdmin()">Đăng xuất</button>
-        </div>
-    </div>
+        </section>
+    </main>
 
     <script src="script.js"></script>
 </body>
