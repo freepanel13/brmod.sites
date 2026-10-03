@@ -1,16 +1,14 @@
 // ================= CẤU HÌNH THÔNG SỐ =================
 const CONFIG = {
     // ========== ĐIỀN LINK CỦA BẠN VÀO ĐÂY ==========
-    // Thay bằng link rút gọn / media của BRMOD
-    linkBrmod: "ĐIỀN_LINK_BRMOD_CỦA_BẠN_VÀY_ĐÂY",
-    // Thay bằng link rút gọn / media của FF V7A
+    linkBrmod: "ĐIỀN_LINK_BRMOD_CỦA_BẠN_VÀO_ĐÂY",
     linkFFV7A: "ĐIỀN_LINK_FFV7A_CỦA_BẠN_VÀO_ĐÂY",
     
     // ========== TÀI KHOẢN MẬT KHẨU ADMIN ==========
-    adminUsername: "admin",       // ← Đổi tên đăng nhập
-    adminPassword: "admin123",    // ← Đổi mật khẩu
+    adminUsername: "admin",
+    adminPassword: "nguyenthanhnam@1301",
     
-    // Thời hạn key: 5 giờ — không đổi nếu không cần
+    // Thời hạn key: 5 giờ
     keyValidMs: 5 * 60 * 60 * 1000
 };
 
@@ -28,10 +26,9 @@ function generateKey(modType) {
     return `${prefix}-${part1}-${part2}-${part3}-${part4}`;
 }
 
-// ================= LƯU & KIỂM TRA KEY =================
 function saveKey(key, modType) {
     const record = {
-        key: key,
+        key,
         mod: modType,
         createdAt: Date.now(),
         expiresAt: Date.now() + CONFIG.keyValidMs
@@ -40,18 +37,25 @@ function saveKey(key, modType) {
     return record;
 }
 
-// ================= TRANG CHÍNH — NGƯỜI DÙNG =================
+// ================= TRANG CHÍNH =================
 document.addEventListener('DOMContentLoaded', () => {
-    // Bấm vào thẻ BRMOD
-    document.querySelectorAll('.mod-card[data-mod="BRMOD"]').forEach(card => {
-        card.addEventListener('click', () => handleUserClick('BRMOD'));
-    });
-    // Bấm vào thẻ FF V7A
-    document.querySelectorAll('.mod-card[data-mod="FFV7A"]').forEach(card => {
-        card.addEventListener('click', () => handleUserClick('FFV7A'));
+    // Bấm thẻ chọn MOD
+    document.querySelectorAll('.mod-card').forEach(card => {
+        card.addEventListener('click', () => {
+            handleUserClick(card.dataset.mod);
+        });
     });
 
-    // Kiểm tra xem vừa quay về sau khi vượt link không
+    // Vào trang đăng nhập admin
+    const adminEntry = document.getElementById('admin-entry');
+    if (adminEntry) {
+        adminEntry.addEventListener('click', (e) => {
+            e.preventDefault();
+            showAdminLogin();
+        });
+    }
+
+    // Kiểm tra quay về sau vượt link
     const params = new URLSearchParams(window.location.search);
     if (params.get('success') === '1' && params.get('mod')) {
         showSuccessSection(params.get('mod'));
@@ -60,53 +64,53 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function handleUserClick(modType) {
-    const loading = document.getElementById('loading-section');
-    const cards = document.querySelector('.cards-grid');
-    if (!loading) return;
-    
-    cards.classList.add('hidden');
-    loading.classList.remove('hidden');
+    showSection('loading-section');
 
-    // Chuyển sang link rút gọn sau 1 giây
     setTimeout(() => {
         const targetLink = modType === 'BRMOD' 
             ? CONFIG.linkBrmod 
             : CONFIG.linkFFV7A;
         
-        // Link quay về sau khi vượt xong
         const redirectBack = encodeURIComponent(
             window.location.origin + window.location.pathname + `?success=1&mod=${modType}`
         );
         
-        // ✅ Định dạng nối link — nếu link của bạn dùng ký tự khác thì sửa '?to=' ở dưới
+        // Đổi '?to=' thành định dạng link của bạn nếu cần
         window.location.href = targetLink + '?to=' + redirectBack;
-    }, 1000);
+    }, 1200);
 }
 
 function showSuccessSection(modType) {
     const key = generateKey(modType);
     saveKey(key, modType);
     
-    const loading = document.getElementById('loading-section');
-    const success = document.getElementById('success-section');
     const keyDisplay = document.getElementById('key-display');
-    
-    if (loading) loading.classList.add('hidden');
-    if (success) success.classList.remove('hidden');
     if (keyDisplay) keyDisplay.textContent = key;
+    
+    showSection('success-section');
+}
+
+function showSection(sectionId) {
+    document.querySelectorAll('.page-section').forEach(sec => {
+        sec.classList.add('hidden');
+    });
+    const target = document.getElementById(sectionId);
+    if (target) target.classList.remove('hidden');
 }
 
 function goBack() {
-    window.location.href = window.location.pathname;
+    showSection('home-section');
 }
 
-// ================= ĐĂNG NHẬP QUẢN TRỊ =================
+// ================= ADMIN LOGIN =================
 function showAdminLogin() {
-    document.getElementById('admin-login-form').classList.remove('hidden');
+    showSection('admin-login-section');
 }
+
 function hideAdminLogin() {
-    document.getElementById('admin-login-form').classList.add('hidden');
+    showSection('home-section');
 }
+
 function adminLogin() {
     const user = document.getElementById('admin-user').value.trim();
     const pass = document.getElementById('admin-pass').value.trim();
@@ -119,10 +123,9 @@ function adminLogin() {
     }
 }
 
-// ================= TRANG QUẢN TRỊ =================
+// ================= TRANG ADMIN =================
 if (window.location.pathname.includes('admin.html')) {
     document.addEventListener('DOMContentLoaded', () => {
-        // Kiểm tra đăng nhập
         if (sessionStorage.getItem('adminAuth') !== 'ok') {
             window.location.href = 'index.html';
         }
@@ -137,9 +140,11 @@ function adminGenerateKey() {
     
     const resultDiv = document.getElementById('admin-key-result');
     const display = document.getElementById('admin-key-display');
+    const noKeyText = document.getElementById('no-key-yet');
     
-    display.textContent = key;
-    resultDiv.classList.remove('hidden');
+    if (display) display.textContent = key;
+    if (resultDiv) resultDiv.classList.remove('hidden');
+    if (noKeyText) noKeyText.style.display = 'none';
 }
 
 function logoutAdmin() {
