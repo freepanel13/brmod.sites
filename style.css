@@ -2,166 +2,231 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
 }
 
 :root {
-    --space-black: #050510;
-    --deep-purple: #2a0050;
+    --space-black: #050512;
+    --deep-bg: #0a0a1f;
+    --card-bg: rgba(15, 15, 40, 0.7);
+    --border-glow: linear-gradient(135deg, #00fff9, #c040ff, #4080ff);
     --hologram-cyan: #00fff9;
     --hologram-purple: #c040ff;
     --hologram-blue: #4080ff;
-    --glow: 0 0 15px;
+    --success-green: #00ff88;
+    --text-primary: #ffffff;
+    --text-secondary: #aab;
+    --glow-sm: 0 0 10px rgba(0, 255, 249, 0.3);
+    --glow-md: 0 0 20px rgba(192, 64, 255, 0.4);
 }
 
 body {
     background: var(--space-black);
     min-height: 100vh;
     overflow-x: hidden;
-    color: #fff;
+    color: var(--text-primary);
 }
 
-/* Nền sao lấp lánh */
+/* Nền sao & tinh vân */
 .stars {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 0;
+    inset: 0;
     background-image: 
-        radial-gradient(1px 1px at 20px 30px, #fff, transparent),
-        radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.8), transparent),
-        radial-gradient(1px 1px at 50px 160px, rgba(255,255,255,0.6), transparent),
-        radial-gradient(1px 1px at 90px 40px, #fff, transparent),
-        radial-gradient(2px 2px at 130px 80px, var(--hologram-cyan), transparent),
-        radial-gradient(2px 2px at 160px 120px, var(--hologram-purple), transparent);
-    background-size: 200px 200px;
-    animation: twinkle 8s ease-in-out infinite;
+        radial-gradient(1px 1px at 25px 35px, #fff, transparent),
+        radial-gradient(1px 1px at 60px 80px, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1px 1px at 100px 45px, #fff, transparent),
+        radial-gradient(2px 2px at 150px 90px, var(--hologram-cyan), transparent),
+        radial-gradient(2px 2px at 200px 130px, var(--hologram-purple), transparent);
+    background-size: 250px 250px;
+    animation: twinkle 7s ease-in-out infinite;
+    z-index: 0;
+    pointer-events: none;
 }
 
 @keyframes twinkle {
     0%, 100% { opacity: 1; }
-    50% { opacity: 0.6; }
+    50% { opacity: 0.55; }
 }
 
-/* Đám mây tinh vân */
 .nebula {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background: 
-        radial-gradient(ellipse at 20% 20%, rgba(90, 0, 150, 0.2), transparent 50%),
-        radial-gradient(ellipse at 80% 80%, rgba(0, 100, 150, 0.2), transparent 50%);
-    pointer-events: none;
+        radial-gradient(ellipse at 15% 25%, rgba(80, 0, 140, 0.18), transparent 55%),
+        radial-gradient(ellipse at 85% 75%, rgba(0, 80, 120, 0.18), transparent 55%);
+    animation: drift 18s ease-in-out infinite;
     z-index: 1;
-    animation: nebulaDrift 20s ease-in-out infinite;
+    pointer-events: none;
 }
 
-@keyframes nebulaDrift {
+@keyframes drift {
     0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(10px, -10px); }
+    50% { transform: translate(15px, -10px); }
 }
 
-.container {
+/* Thanh điều hướng trên */
+.navbar {
     position: relative;
-    z-index: 2;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 40px 20px;
-    text-align: center;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 40px;
+    background: rgba(8, 8, 28, 0.6);
+    border-bottom: 1px solid rgba(0, 255, 249, 0.15);
+    backdrop-filter: blur(8px);
 }
 
-.main-title {
-    font-size: clamp(1.8rem, 5vw, 3rem);
-    font-weight: 900;
-    margin-bottom: 50px;
-    background: linear-gradient(135deg, var(--hologram-cyan), var(--hologram-purple), var(--hologram-blue));
+.nav-brand {
+    font-size: 1.3rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, var(--hologram-cyan), var(--hologram-purple));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: none;
-    filter: drop-shadow(0 0 10px rgba(0, 255, 249, 0.3));
-    letter-spacing: 3px;
-    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 40px;
-    margin-bottom: 40px;
-}
-
-.mod-card {
-    position: relative;
-    height: 220px;
-    cursor: pointer;
-}
-
-.card-border {
-    position: absolute;
-    inset: 0;
-    border-radius: 16px;
-    background: linear-gradient(150deg, var(--hologram-cyan), var(--hologram-purple), var(--hologram-blue));
-    opacity: 0.7;
-    transition: all 0.4s ease;
-    animation: borderRotate 4s linear infinite;
-}
-
-@keyframes borderRotate {
-    0% { filter: hue-rotate(0deg); }
-    100% { filter: hue-rotate(360deg); }
-}
-
-.mod-card:hover .card-border {
-    opacity: 1;
-    transform: scale(1.05);
-    box-shadow: 
-        0 0 25px var(--hologram-cyan),
-        0 0 45px var(--hologram-purple);
-}
-
-.card-content {
-    position: absolute;
-    inset: 3px;
-    background: rgba(8, 8, 24, 0.9);
-    border-radius: 14px;
+.nav-links {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    gap: 30px;
+}
+
+.nav-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 600;
+    padding: 8px 4px;
+    border-bottom: 2px solid transparent;
     transition: all 0.3s ease;
 }
 
-.mod-card:hover .card-content {
-    background: rgba(12, 12, 36, 0.95);
+.nav-link:hover, .nav-link.active {
+    color: var(--hologram-cyan);
+    border-bottom-color: var(--hologram-cyan);
 }
 
-.card-content h2 {
-    font-size: 2rem;
-    font-weight: 800;
-    color: #fff;
-    margin-bottom: 10px;
-    text-shadow: 0 0 10px var(--hologram-cyan);
+/* Khung chính */
+.container {
+    position: relative;
+    z-index: 2;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px;
 }
 
-.card-content p {
-    color: #aaa;
-    font-size: 1rem;
+.page-section {
+    animation: fadeIn 0.5s ease;
 }
 
 .hidden {
     display: none !important;
 }
 
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-box {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 40px;
+    border: 1px solid rgba(0, 255, 249, 0.15);
+    box-shadow: var(--glow-sm);
+    backdrop-filter: blur(6px);
+}
+
+.center-box {
+    text-align: center;
+    max-width: 550px;
+    margin: 0 auto;
+}
+
+.small-box {
+    max-width: 420px;
+}
+
+.hero-box h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: var(--hologram-cyan);
+}
+
+.sub-desc {
+    color: var(--text-secondary);
+    margin-bottom: 40px;
+    font-size: 1.05rem;
+}
+
+/* Lưới thẻ chọn MOD */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+}
+
+.mod-card {
+    background: rgba(20, 20, 50, 0.6);
+    border-radius: 14px;
+    padding: 35px 25px;
+    text-align: center;
+    cursor: pointer;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+}
+
+.mod-card::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 16px;
+    background: var(--border-glow);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+}
+
+.mod-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--glow-md);
+}
+
+.mod-card:hover::before {
+    opacity: 1;
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.mod-card h2 {
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+}
+
+.mod-card p {
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+}
+
+.card-status {
+    display: inline-block;
+    padding: 4px 12px;
+    background: rgba(0, 255, 136, 0.15);
+    color: var(--success-green);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* Loader */
 .loader {
-    width: 60px;
-    height: 60px;
-    border: 3px solid rgba(0, 255, 249, 0.2);
+    width: 65px;
+    height: 65px;
+    border: 3px solid rgba(0, 255, 249, 0.15);
     border-top-color: var(--hologram-cyan);
     border-radius: 50%;
     animation: spin 1s linear infinite;
@@ -172,28 +237,33 @@ body {
     to { transform: rotate(360deg); }
 }
 
+/* Thành công & Hiển thị khóa */
 .success-icon {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #00ff88, #00cc66);
+    background: linear-gradient(135deg, var(--success-green), #00cc66);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 2.5rem;
     font-weight: bold;
-    margin: 0 auto 20px;
-    box-shadow: 0 0 25px rgba(0, 255, 136, 0.5);
+    margin: 0 auto 25px;
+    box-shadow: 0 0 25px rgba(0, 255, 136, 0.4);
 }
 
 .key-box {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.4);
     border: 2px solid var(--hologram-cyan);
-    border-radius: 12px;
+    border-radius: 10px;
     padding: 25px;
-    margin: 25px auto;
-    max-width: 450px;
-    box-shadow: 0 0 20px rgba(0, 255, 249, 0.25);
+    margin: 25px 0;
+    box-shadow: var(--glow-sm);
+}
+
+.key-label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
 }
 
 .key-box p {
@@ -201,84 +271,157 @@ body {
     font-weight: bold;
     letter-spacing: 2px;
     color: #fff;
-    margin-bottom: 8px;
+    margin: 10px 0;
     word-break: break-all;
 }
 
-.key-box span {
-    color: #888;
-    font-size: 0.9rem;
+.key-note {
+    color: #667;
+    font-size: 0.85rem;
 }
 
+/* Nút bấm */
 button {
-    background: linear-gradient(135deg, var(--hologram-cyan), var(--hologram-purple));
     border: none;
-    padding: 12px 30px;
     border-radius: 8px;
-    color: #fff;
+    padding: 12px 28px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    margin: 8px;
 }
 
-button:hover {
+.primary-btn {
+    background: linear-gradient(135deg, var(--hologram-cyan), var(--hologram-purple));
+    color: #fff;
+}
+
+.primary-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 0 20px var(--hologram-purple);
+    box-shadow: var(--glow-md);
 }
 
 .back-btn {
     background: transparent;
     border: 2px solid var(--hologram-blue);
+    color: var(--hologram-blue);
+}
+
+.back-btn:hover {
+    background: rgba(64, 128, 255, 0.1);
 }
 
 .cancel-btn {
     background: transparent;
-    border: 2px solid #666;
+    border: 2px solid #555;
+    color: #999;
 }
 
-input {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--hologram-blue);
-    border-radius: 6px;
-    padding: 12px;
-    margin: 8px;
+.cancel-btn:hover {
+    border-color: #777;
+    color: #bbb;
+}
+
+.gen-btn {
+    background: linear-gradient(135deg, var(--hologram-purple), var(--hologram-cyan));
     color: #fff;
-    width: 250px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.gen-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px var(--hologram-purple);
+}
+
+.logout-btn {
+    background: transparent;
+    border: 2px solid #ff4466;
+    color: #ff4466;
+}
+
+.logout-btn:hover {
+    background: rgba(255, 68, 102, 0.1);
+}
+
+/* Input & Select */
+input, select {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 8px 0;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(0, 255, 249, 0.2);
+    border-radius: 6px;
+    color: #fff;
     font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
 }
 
-.admin-login {
-    margin-top: 40px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.admin-login p {
-    color: #666;
-    margin-bottom: 10px;
-}
-
-.admin-panel {
-    background: rgba(10, 10, 30, 0.7);
-    border: 2px solid var(--hologram-purple);
-    border-radius: 16px;
-    padding: 30px;
-    box-shadow: 0 0 25px rgba(192, 64, 255, 0.2);
+input:focus, select:focus {
+    border-color: var(--hologram-cyan);
 }
 
 select {
-    background: rgba(20, 20, 50, 0.9);
-    color: #fff;
-    border: 1px solid var(--hologram-cyan);
-    padding: 10px;
-    border-radius: 6px;
-    margin: 10px;
+    cursor: pointer;
 }
 
-.note {
-    color: #00ff88;
+/* Trang quản trị */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.admin-badge {
+    background: rgba(0, 255, 136, 0.15);
+    color: var(--success-green);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.note-text {
+    color: var(--success-green);
+    margin-bottom: 30px;
+}
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.admin-card {
+    background: rgba(20, 20, 50, 0.5);
+    border-radius: 10px;
+    padding: 25px;
+    border: 1px solid rgba(192, 64, 255, 0.2);
+}
+
+.admin-card h3 {
+    margin-bottom: 15px;
+    color: var(--hologram-purple);
+}
+
+.muted {
+    color: #556;
     font-size: 0.9rem;
-    margin-bottom: 20px;
+}
+
+.logout-area {
+    text-align: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.btn-group {
+    display: flex;
+    gap: 12px;
+    margin-top: 15px;
+    justify-content: center;
 }
