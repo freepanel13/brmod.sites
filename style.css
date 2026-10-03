@@ -1,0 +1,284 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+:root {
+    --space-black: #050510;
+    --deep-purple: #2a0050;
+    --hologram-cyan: #00fff9;
+    --hologram-purple: #c040ff;
+    --hologram-blue: #4080ff;
+    --glow: 0 0 15px;
+}
+
+body {
+    background: var(--space-black);
+    min-height: 100vh;
+    overflow-x: hidden;
+    color: #fff;
+}
+
+/* Nền sao lấp lánh */
+.stars {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    background-image: 
+        radial-gradient(1px 1px at 20px 30px, #fff, transparent),
+        radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 50px 160px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+        radial-gradient(2px 2px at 130px 80px, var(--hologram-cyan), transparent),
+        radial-gradient(2px 2px at 160px 120px, var(--hologram-purple), transparent);
+    background-size: 200px 200px;
+    animation: twinkle 8s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+/* Đám mây tinh vân */
+.nebula {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(ellipse at 20% 20%, rgba(90, 0, 150, 0.2), transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(0, 100, 150, 0.2), transparent 50%);
+    pointer-events: none;
+    z-index: 1;
+    animation: nebulaDrift 20s ease-in-out infinite;
+}
+
+@keyframes nebulaDrift {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(10px, -10px); }
+}
+
+.container {
+    position: relative;
+    z-index: 2;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.main-title {
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: 900;
+    margin-bottom: 50px;
+    background: linear-gradient(135deg, var(--hologram-cyan), var(--hologram-purple), var(--hologram-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    filter: drop-shadow(0 0 10px rgba(0, 255, 249, 0.3));
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.mod-card {
+    position: relative;
+    height: 220px;
+    cursor: pointer;
+}
+
+.card-border {
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    background: linear-gradient(150deg, var(--hologram-cyan), var(--hologram-purple), var(--hologram-blue));
+    opacity: 0.7;
+    transition: all 0.4s ease;
+    animation: borderRotate 4s linear infinite;
+}
+
+@keyframes borderRotate {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+}
+
+.mod-card:hover .card-border {
+    opacity: 1;
+    transform: scale(1.05);
+    box-shadow: 
+        0 0 25px var(--hologram-cyan),
+        0 0 45px var(--hologram-purple);
+}
+
+.card-content {
+    position: absolute;
+    inset: 3px;
+    background: rgba(8, 8, 24, 0.9);
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.mod-card:hover .card-content {
+    background: rgba(12, 12, 36, 0.95);
+}
+
+.card-content h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px var(--hologram-cyan);
+}
+
+.card-content p {
+    color: #aaa;
+    font-size: 1rem;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.loader {
+    width: 60px;
+    height: 60px;
+    border: 3px solid rgba(0, 255, 249, 0.2);
+    border-top-color: var(--hologram-cyan);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.success-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00ff88, #00cc66);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0 auto 20px;
+    box-shadow: 0 0 25px rgba(0, 255, 136, 0.5);
+}
+
+.key-box {
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid var(--hologram-cyan);
+    border-radius: 12px;
+    padding: 25px;
+    margin: 25px auto;
+    max-width: 450px;
+    box-shadow: 0 0 20px rgba(0, 255, 249, 0.25);
+}
+
+.key-box p {
+    font-size: 1.4rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: #fff;
+    margin-bottom: 8px;
+    word-break: break-all;
+}
+
+.key-box span {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+button {
+    background: linear-gradient(135deg, var(--hologram-cyan), var(--hologram-purple));
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 8px;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px var(--hologram-purple);
+}
+
+.back-btn {
+    background: transparent;
+    border: 2px solid var(--hologram-blue);
+}
+
+.cancel-btn {
+    background: transparent;
+    border: 2px solid #666;
+}
+
+input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--hologram-blue);
+    border-radius: 6px;
+    padding: 12px;
+    margin: 8px;
+    color: #fff;
+    width: 250px;
+    font-size: 1rem;
+}
+
+.admin-login {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-login p {
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.admin-panel {
+    background: rgba(10, 10, 30, 0.7);
+    border: 2px solid var(--hologram-purple);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 0 25px rgba(192, 64, 255, 0.2);
+}
+
+select {
+    background: rgba(20, 20, 50, 0.9);
+    color: #fff;
+    border: 1px solid var(--hologram-cyan);
+    padding: 10px;
+    border-radius: 6px;
+    margin: 10px;
+}
+
+.note {
+    color: #00ff88;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
