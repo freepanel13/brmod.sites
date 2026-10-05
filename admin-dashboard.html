@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | BrMod Key System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="lang-switch">
+        <button class="lang-btn active">VN Tiếng Việt</button>
+        <button class="lang-btn">GB English</button>
+    </div>
+
+    <div class="container">
+        <div class="top-brand">
+            <div class="brand-icon">⚙️</div>
+            <div class="brand-title">Bảng Điều Khiển Admin</div>
+            <div class="brand-sub">TRUY CẬP TRỰC TIẾP • KHÔNG CẦN VƯỢT LINK</div>
+            <div class="badges">
+                <span class="badge" style="color:#00ff88;"><i>✓</i> ĐÃ ĐĂNG NHẬP</span>
+                <span class="badge"><i>⚡</i> TẠO KEY NGAY</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="tag" style="background:rgba(0,255,136,0.1);color:#00ff88;">✅ BỎ QUA TẤT CẢ BƯỚC VƯỢT</span>
+                <h1>Tạo Key Bản Quyền</h1>
+                <p class="desc">Admin tạo key trực tiếp — không cần đi qua link4M nào</p>
+            </div>
+
+            <div class="confirm-grid">
+                <div class="confirm-item">
+                    <div class="confirm-label">Thời hạn</div>
+                    <select id="key-duration" style="width:100%;margin-top:4px;padding:6px;border-radius:6px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#fff;">
+                        <option value="3">3 giờ</option>
+                        <option value="24">24 giờ</option>
+                        <option value="168">7 ngày</option>
+                        <option value="720">30 ngày</option>
+                    </select>
+                </div>
+                <div class="confirm-item">
+                    <div class="confirm-label">Tối đa thiết bị</div>
+                    <select id="key-devices" style="width:100%;margin-top:4px;padding:6px;border-radius:6px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#fff;">
+                        <option value="1">1 thiết bị</option>
+                        <option value="3">3 thiết bị</option>
+                        <option value="5">5 thiết bị</option>
+                        <option value="10">10 thiết bị</option>
+                    </select>
+                </div>
+                <div class="confirm-item full">
+                    <div class="confirm-label">Ghi chú / Dành cho</div>
+                    <input type="text" id="key-note" placeholder="VD: Dành cho thành viên A" 
+                        style="width:100%;margin-top:4px;padding:8px;border-radius:6px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#fff;">
+                </div>
+            </div>
+
+            <button class="action-btn btn-green" onclick="generateAdminKey()">
+                🔑 Tạo Key Ngay — Bỏ qua link4M
+            </button>
+
+            <div id="key-result" style="display:none;margin-top:16px;padding:16px;background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.25);border-radius:8px;">
+                <p style="font-size:13px;color:#94a3b8;margin-bottom:6px;">Key vừa tạo:</p>
+                <p id="generated-key" style="font-size:18px;font-weight:bold;color:#00ff88;letter-spacing:1px;margin-bottom:8px;"></p>
+                <button onclick="copyKey()" style="padding:6px 12px;border-radius:6px;border:none;background:#00f0ff;color:#000;font-weight:bold;cursor:pointer;">📋 Sao chép</button>
+            </div>
+
+            <div style="margin-top:24px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.06);">
+                <a href="index.html" class="action-btn btn-ghost" style="text-align:center;text-decoration:none;">
+                    ← Trang người dùng
+                </a>
+                <button class="action-btn btn-ghost" style="color:#ff6b6b;border-color:rgba(255,107,107,0.2);" onclick="logoutAdmin()">
+                    🚪 Đăng xuất
+                </button>
+            </div>
+        </div>
+    </div>
+
+<script>
+// Kiểm tra đã đăng nhập chưa
+document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('brmod_admin_logged') !== 'OK') {
+        window.location.href = 'admin.html';
+    }
+});
+
+function generateAdminKey() {
+    const duration = document.getElementById('key-duration').value;
+    const devices = document.getElementById('key-devices').value;
+    const note = document.getElementById('key-note').value || 'Không có ghi chú';
+    
+    // Tạo key định dạng: BRMOD + thời gian + chuỗi ngẫu nhiên
+    const randomPart = Array.from({length:12}, () => 
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'[Math.floor(Math.random()*36)]
+    ).join('');
+    
+    const key = `BRMOD-${duration}H-${devices}DEV-${randomPart}`;
+    
+    // Hiển thị kết quả
+    document.getElementById('generated-key').textContent = key;
+    document.getElementById('key-result').style.display = 'block';
+    
+    // Lưu lịch sử key (nếu cần)
+    const history = JSON.parse(localStorage.getItem('brmod_key_history') || '[]');
+    history.unshift({ key, duration, devices, note, time: new Date().toLocaleString('vi-VN') });
+    localStorage.setItem('brmod_key_history', JSON.stringify(history));
+}
+
+function copyKey() {
+    const keyText = document.getElementById('generated-key').textContent;
+    navigator.clipboard.writeText(keyText).then(() => {
+        alert('✅ Đã sao chép key!');
+    });
+}
+
+function logoutAdmin() {
+    localStorage.removeItem('brmod_admin_logged');
+    window.location.href = 'admin.html';
+}
+</script>
+</body>
+</html>
