@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Đăng Nhập | BrMod Key System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="lang-switch">
+        <button class="lang-btn active">VN Tiếng Việt</button>
+        <button class="lang-btn">GB English</button>
+    </div>
+
+    <div class="container">
+        <div class="top-brand">
+            <div class="brand-icon">⚙️</div>
+            <div class="brand-title">Admin Panel</div>
+            <div class="brand-sub">TRANG QUẢN LÝ • BỎ QUA VƯỢT LINK</div>
+            <div class="badges">
+                <span class="badge"><i>🔒</i> BẢO MẬT</span>
+                <span class="badge"><i>⚡</i> TRUY CẬP TRỰC TIẾP</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h1>Đăng Nhập Quản Trị</h1>
+                <p class="desc">Chỉ Admin có quyền truy cập — bỏ qua toàn bộ bước vượt link4M</p>
+            </div>
+
+            <div style="margin: 20px 0;">
+                <label style="font-size:13px;color:#94a3b8;display:block;margin-bottom:6px;">Tên đăng nhập</label>
+                <input type="text" id="admin-user" placeholder="Nhập tài khoản" 
+                    style="width:100%;padding:12px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.1;background:rgba(255,255,255,0.03);color:#fff;margin-bottom:16px;">
+                
+                <label style="font-size:13px;color:#94a3b8;display:block;margin-bottom:6px;">Mật khẩu</label>
+                <input type="password" id="admin-pass" placeholder="Nhập mật khẩu" 
+                    style="width:100%;padding:12px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.1;background:rgba(255,255,255,0.03);color:#fff;margin-bottom:8px;">
+            </div>
+
+            <p id="login-error" style="color:#ff6b6b;font-size:13px;margin-bottom:12px;display:none;">❌ Sai tài khoản hoặc mật khẩu</p>
+
+            <button class="action-btn btn-primary" onclick="checkAdminLogin()">
+                🔑 Đăng Nhập Ngay
+            </button>
+
+            <a href="index.html" class="action-btn btn-ghost" style="text-align:center;text-decoration:none;">
+                ← Quay lại trang người dùng
+            </a>
+        </div>
+    </div>
+
+<script>
+// ===== THIẾT LẬP TÀI KHOẢN ADMIN Ở ĐÂY =====
+const ADMIN_USER = "admin";   // Đổi tên tài khoản
+const ADMIN_PASS = "nguyenthanhnam@1301"; // Đổi mật khẩu
+// =========================================
+
+function checkAdminLogin() {
+    const u = document.getElementById('admin-user').value.trim();
+    const p = document.getElementById('admin-pass').value.trim();
+    
+    if (u === ADMIN_USER && p === ADMIN_PASS) {
+        // Lưu trạng thái đăng nhập → vào trang quản lý
+        localStorage.setItem('brmod_admin_logged', 'OK');
+        window.location.href = "admin-dashboard.html";
+    } else {
+        document.getElementById('login-error').style.display = 'block';
+    }
+}
+</script>
+</body>
+</html>
