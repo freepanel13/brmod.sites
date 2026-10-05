@@ -3,82 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BRMOD UNIVERSE PANEL</title>
+    <title>Hệ Thống Key Bản Quyền | BrMod</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="stars"></div>
-    <div class="nebula"></div>
+    <div class="lang-switch">
+        <button class="lang-btn active">VN Tiếng Việt</button>
+        <button class="lang-btn">GB English</button>
+    </div>
 
-    <nav class="navbar">
-        <div class="nav-brand">BRMOD UNIVERSE PANEL</div>
-        <div class="nav-links">
-            <a href="#" class="nav-link active" data-page="home">Tổng quan</a>
-            <a href="#" class="nav-link" id="admin-entry">Quản trị</a>
+    <div class="container">
+        <div class="top-brand">
+            <div class="brand-icon">🛡️</div>
+            <div class="brand-title">Auth Manager System</div>
+            <div class="brand-sub">HỆ THỐNG KEY • v4.0 • XÁC THỰC TỰ ĐỘNG</div>
+            <div class="badges">
+                <span class="badge"><i>✓</i> SSL 256-BIT</span>
+                <span class="badge"><i>⚡</i> CẤP KEY TỰ ĐỘNG</span>
+                <span class="badge"><i>🔒</i> KHÓA HWID CHUẨN</span>
+            </div>
         </div>
-    </nav>
 
-    <main class="container">
-        <!-- Trang chủ - Chọn MOD -->
-        <section id="home-section" class="page-section">
-            <div class="hero-box">
-                <h1>Nhận Khóa Kích Hoạt</h1>
-                <p class="sub-desc">Chọn phiên bản bạn cần, vượt link ngắn và nhận khóa ngay</p>
-                
-                <div class="cards-grid">
-                    <div class="mod-card" data-mod="BRMOD">
-                        <div class="card-icon">⚡</div>
-                        <h2>BRMOD</h2>
-                        <p>Nhấn để nhận khóa</p>
-                        <div class="card-status">Hoạt động</div>
-                    </div>
+        <div class="card">
+            <div class="card-header">
+                <span class="tag">⚙ TỰ ĐỘNG • MIỄN PHÍ</span>
+                <h1>Nhận Key Bản Quyền</h1>
+                <p class="desc">Vượt qua các liên kết bên dưới để nhận mã kích hoạt bản quyền nhanh chóng</p>
+            </div>
 
-                    <div class="mod-card" data-mod="FFV7A">
-                        <div class="card-icon">🔥</div>
-                        <h2>FF V7A</h2>
-                        <p>Nhấn để nhận khóa</p>
-                        <div class="card-status">Hoạt động</div>
-                    </div>
+            <div class="steps-indicator">
+                <div class="step-node">
+                    <div class="step-num active">1</div>
+                    <span class="step-text">link4m</span>
+                </div>
+                <span class="arrow">→</span>
+                <div class="step-node">
+                    <div class="step-num">2</div>
+                    <span class="step-text">link4m</span>
                 </div>
             </div>
-        </section>
 
-        <!-- Đang chuyển hướng -->
-        <section id="loading-section" class="page-section hidden">
-            <div class="hero-box center-box">
-                <div class="loader"></div>
-                <h2>Đang xử lý...</h2>
-                <p>Chuẩn bị chuyển hướng</p>
+            <div class="info-box">
+                ⓘ Quy trình gồm <strong>2 lần vượt liên kết</strong> tiếp nối. Sau khi hoàn thành lần 1, bấm nút tiếp tục để đến bước 2 nhận key!
             </div>
-        </section>
 
-        <!-- Nhận khóa thành công -->
-        <section id="success-section" class="page-section hidden">
-            <div class="hero-box center-box">
-                <div class="success-icon">✓</div>
-                <h2>Chúc mừng bạn đã nhận được khóa!</h2>
-                <div class="key-box">
-                    <span class="key-label">Khóa của bạn:</span>
-                    <p id="key-display">---</p>
-                    <span class="key-note">Hạn sử dụng: 5 giờ kể từ lúc nhận</span>
+            <a id="btn-step1" href="" target="_blank" class="action-btn btn-primary" 
+               onclick="setTimeout(()=>{window.location.href='step2.html';markStepDone(1);}, 800)">
+                <span>🔗</span>
+                <div>
+                    <div style="font-size:13px;opacity:0.7;">LINK4M × 1</div>
+                    <div>Vượt Link4M — Lần 1</div>
                 </div>
-                <button class="back-btn" onclick="goBack()">Quay lại trang chủ</button>
-            </div>
-        </section>
+                <span style="margin-left:auto;">→</span>
+            </a>
 
-        <!-- Form đăng nhập Admin -->
-        <section id="admin-login-section" class="page-section hidden">
-            <div class="hero-box center-box small-box">
-                <h2>🔐 Đăng nhập Quản trị</h2>
-                <input type="text" id="admin-user" placeholder="Tên đăng nhập">
-                <input type="password" id="admin-pass" placeholder="Mật khẩu">
-                <div class="btn-group">
-                    <button class="primary-btn" onclick="adminLogin()">Đăng nhập</button>
-                    <button class="cancel-btn" onclick="hideAdminLogin()">Hủy</button>
-                </div>
+            <div class="rules">
+                <h3>📋 QUY ĐỊNH & LƯU Ý</h3>
+                <ul>
+                    <li><strong>Thời hạn key:</strong> 3 giờ (khi hoàn thành 2 bước)</li>
+                    <li><strong>Giới hạn thiết bị:</strong> 1 thiết bị / mỗi mã key</li>
+                    <li><strong>Hoàn tất 2 link</strong> để hệ thống tự sinh key</li>
+                    <li>Sao chép key ngay sau khi hệ thống hiển thị</li>
+                </ul>
             </div>
-        </section>
-    </main>
+        </div>
+
+        <p class="footer-note">Hệ thống phân phối bản quyền chính thức • <a href="#">Liên hệ Admin</a></p>
+    </div>
 
     <script src="script.js"></script>
 </body>
